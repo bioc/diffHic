@@ -251,35 +251,58 @@ public:
     bool holding;
 };
 
+
 class OutputFile {
 public: 
-    OutputFile(const char* p, const int c1, const int c2) : out(NULL) { 
+    OutputFile(const char* p, const int c1, const int c2, const size_t np) : num(0), NPAIRS(np), 
+            ai(NPAIRS), ti(NPAIRS), ap(NPAIRS), tp(NPAIRS), al(NPAIRS), tl(NPAIRS), out(NULL), saved(false) {
         std::stringstream converter;
         converter << p << c1 << "_" << c2;
         path=converter.str();
-        return;
     }
+
     void add(int anchor, int target, int apos, int tpos, int alen, int tlen, bool arev, bool trev) {
-        if (out==NULL) { 
-            out = std::fopen(path.c_str(), "w");
-            if (out==NULL) {
-                std::stringstream err;
-                err << "failed to open output file at '" << path << "'"; 
-                throw std::runtime_error(err.str());
-            }
-        }
+        if (num==NPAIRS) { dump(); }
 		if (alen<0 || tlen<0) { throw std::runtime_error("alignment lengths should be positive"); }
         if (arev) { alen *= -1; } 
         if (trev) { tlen *= -1; } 
-        fprintf(out, "%i\t%i\t%i\t%i\t%i\t%i\n", anchor+1, target+1, apos, tpos, alen, tlen); // Get back to 1-indexing.
+        ai[num]=anchor+1; // Get back to 1-indexing.
+        ti[num]=target+1; 
+        ap[num]=apos;
+        tp[num]=tpos;
+        al[num]=alen;
+        tl[num]=tlen;
+        ++num;
         return;
     }
-    ~OutputFile() {
-        if (out!=NULL) { std::fclose(out); }
+
+    void dump() {
+        if (!num) { return; }
+        if (saved) {
+            out=std::fopen(path.c_str(), "a");
+        } else {
+            out=std::fopen(path.c_str(), "w"); // Overwrite any existing file, just to be safe.
+        }
+        if (out==NULL) {
+            std::stringstream err;
+            err << "failed to open output file at '" << path << "'"; 
+            throw std::runtime_error(err.str());
+        }
+        for (size_t i=0; i<num; ++i) {
+            fprintf(out, "%i\t%i\t%i\t%i\t%i\t%i\n", ai[i], ti[i], ap[i], tp[i], al[i], tl[i]);
+        }
+        std::fclose(out);
+        num=0;
+        saved=true;
+        return;
     }
-    
-    FILE * out;
+
+    size_t num;
+    const size_t NPAIRS;
+    std::deque<int> ai, ti, ap, tp, al, tl;
     std::string path;
+    FILE * out; 
+    bool saved;
 };
 
 /************************
@@ -306,9 +329,10 @@ SEXP internal_loop (const base_finder * const ffptr, status (*check_self_status)
     // Initializing the chromosome conversion table (to get from BAM TIDs to chromosome indices in the 'fragments' GRanges).
 	const size_t nc=ffptr->nchrs();
     if (!isInteger(chr_converter)) { throw std::runtime_error("chromosome conversion table should be integer"); }
-    if (LENGTH(chr_converter)!=int(nc)) { throw std::runtime_error("conversion table should have length equal to the number of chromosomes"); }
+    const int nbamc=LENGTH(chr_converter);
+    if (nbamc > int(nc)) { throw std::runtime_error("more chromosomes in the BAM file than in the fragment list"); }
     const int* converter=INTEGER(chr_converter);
-    for (size_t i=0; i<nc; ++i) {
+    for (int i=0; i<nbamc; ++i) {
         if (converter[i]==NA_INTEGER || converter[i] < 0 || converter[i] >= int(nc)) { throw std::runtime_error("conversion indices out of range"); }
     }
     
@@ -317,7 +341,7 @@ SEXP internal_loop (const base_finder * const ffptr, status (*check_self_status)
 	std::deque<std::deque<OutputFile> > collected(nc);
 	for (size_t i=0; i<nc; ++i) { 
         for (size_t j=0; j<=i; ++j) { 
-            collected[i].push_back(OutputFile(oprefix, i, j));
+            collected[i].push_back(OutputFile(oprefix, i, j, 5000));
         }
     }
 	int single=-1; // First one always reported as a singleton, as qname is empty.
@@ -369,7 +393,7 @@ SEXP internal_loop (const base_finder * const ffptr, status (*check_self_status)
             if (! (curdup && rm_dup) && ! curunmap) {
                 current.reverse=bool(bam_is_rev(input.read));
                 const int32_t& curtid=(input.read -> core).tid;
-                if (curtid==-1 || curtid >= int(nc)) {
+                if (curtid==-1 || curtid >= nbamc) {
                     std::stringstream err;
                     err << "tid for read '" << bam_get_qname(input.read) << "' out of range of BAM header";
                     throw std::runtime_error(err.str());
@@ -472,6 +496,13 @@ SEXP internal_loop (const base_finder * const ffptr, status (*check_self_status)
                 anchor_seg.reverse, target_seg.reverse);
 	}
 
+    // Dumping any leftovers that are still present.
+    for (size_t i=0; i<nc; ++i) { 
+        for (size_t j=0; j<=i; ++j) { 
+            collected[i][j].dump();
+        }
+    }
+
 	SEXP total_output=PROTECT(allocVector(VECSXP, 5));
 	try {
         // Saving all file names.
@@ -481,7 +512,7 @@ SEXP internal_loop (const base_finder * const ffptr, status (*check_self_status)
             SET_VECTOR_ELT(all_paths, i, allocVector(STRSXP, i+1));
             SEXP current_paths=VECTOR_ELT(all_paths, i);
             for (size_t j=0; j<=i; ++j) {
-                if (collected[i][j].out!=NULL) {
+                if (collected[i][j].saved) {
                     SET_STRING_ELT(current_paths, j, mkChar(collected[i][j].path.c_str()));
                 } else {
                     SET_STRING_ELT(current_paths, j, mkChar(""));
