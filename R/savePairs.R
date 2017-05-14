@@ -13,9 +13,13 @@ savePairs <- function(x, file, param)
     }
 	swap <- x$anchor1.id < x$anchor2.id
 	if (any(swap)) { 
-		temp <- x$anchor2.id[swap]
-		x$anchor2.id[swap] <- x$anchor1.id[swap]
-		x$anchor1.id[swap] <- temp
+        flipping <- x[swap,]
+        has.one <- grepl("1", colnames(flipping))
+        has.two <- grepl("2", colnames(flipping))
+        colnames(flipping)[has.one] <- sub("1", "2", colnames(flipping)[has.one])
+        colnames(flipping)[has.two] <- sub("2", "1", colnames(flipping)[has.two])
+        flipping <- flipping[,match(colnames(x), colnames(flipping))]
+        x[swap,] <- flipping
 	}
 	if (file.exists(file)) { unlink(file, recursive=TRUE) }
 
