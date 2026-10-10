@@ -104,13 +104,24 @@ filterTrended <- function(data, span=0.25, prior.count=2, reference=NULL, assay.
     .trended_filter(data, span=span, prior.count=prior.count, scaling=1, assay=assay.data)        
 }
 
-.trended_filter <- function(data, span, prior.count, scaling, assay) {
+.trended_filter <- function(data, span, prior.count, scaling, assay)
+#   Aaron Lun.
+#   Modified by Gordon Smyth 10 Oct 2026.
+{
 	dist <- pairdist(data, type="mid")
 	log.dist <- log10(dist + .getBinSize(data)) # Adding an appropriate prior.
 	ave.ab <- scaledAverage(data, assay.id=assay, prior.count=prior.count, scale=scaling)
 
 	# Filling in the missing parts of the interaction space.
 	empty <- .makeEmpty(data, prior.count=prior.count, scale=scaling)
+
+    # Without a prior count, all-zero rows have log(0) = -Inf, which loessFit() ignores.
+    # edgeR >= 4.99 returns a large finite negative value instead, so set -Inf explicitly.
+    if (prior.count==0) {
+        ave.ab[rowSums(assay(data, assay))==0] <- -Inf
+        empty <- -Inf
+    }
+
 	is.intra <- !is.na(log.dist)
 	n.intras <- sum(is.intra)
 	all.chrs <- seqnames(regions(data))
