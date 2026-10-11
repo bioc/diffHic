@@ -43,7 +43,7 @@ Filtering should be avoided as counts in low-abundance bin pairs may be informat
 For example, a large count sum for a bin may be formed from many bin pairs with low counts.
 Removal of those bin pairs would result in loss of information.
 
-For \code{average=TRUE}, if multiple libraries are used to generate \code{data}, an average count will be computed for each bin pairs across all libraries using \code{\link{mglmOneGroup}}.
+For \code{average=TRUE}, if multiple libraries are used to generate \code{data}, an average count will be computed for each bin pairs across all libraries using \code{\link[edgeR]{mglmOneGroup}}.
 The average count will then be used for correction.
 Otherwise, correction will be performed on the counts for each library separately.
 
@@ -127,7 +127,7 @@ stopifnot(all(is.na(difference) | difference < 1e-8))
 
 \seealso{
 \code{\link{squareCounts}}, 
-\code{\link{mglmOneGroup}}
+\code{\link[edgeR]{mglmOneGroup}}
 }
 
 \references{

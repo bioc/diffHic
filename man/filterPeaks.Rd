@@ -18,7 +18,7 @@ filterPeaks(data, enrichment, assay.bp=1, assay.neighbors=NULL, get.enrich=FALSE
 \item{min.enrich}{a numeric scalar indicating the minimum enrichment score for a peak}
 \item{min.count}{a numeric scalar indicating the minimum average count for a peak}
 \item{min.diag}{an integer scalar specifying the minimum diagonal in the interaction space with which to consider a peak}
-\item{...}{other arguments to be passed to \code{\link{aveLogCPM}} for the average count filter}
+\item{...}{other arguments to be passed to \code{\link[edgeR]{aveLogCPM}} for the average count filter}
 }
 
 \value{

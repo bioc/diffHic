@@ -10,7 +10,7 @@ cutGenome(bs, pattern, overhang=4L)
 }
 
 \arguments{
-\item{bs}{A \linkS4class{BSgenome} object or a character string containing a path to a FASTA file.}
+\item{bs}{A \linkS4class[BSgenome]{BSgenome} object or a character string containing a path to a FASTA file.}
 \item{pattern}{A character vector containing one or more recognition sites.}
 \item{overhang}{An integer vector specifying the length of the 5' overhang for each element in \code{pattern}.}
 }
@@ -25,7 +25,7 @@ given the recognition site and 5' overhang of the restriction enzyme.
 The total sequence spanned by each fragment is recorded including the two sticky ends after they are filled in.
 No support is currently provided for searching the reverse strand, so the recognition site should be an inverse palindrome.
 
-The genome should be specified as a \linkS4class{BSgenome} object.
+The genome should be specified as a \linkS4class[BSgenome]{BSgenome} object.
 However, a character string can also be provided, specifying a FASTA file containing all the reference sequences in a genome.
 The latter may be necessary to synchronise the fragments with the genome used for alignment.
 
@@ -75,7 +75,7 @@ cutGenome(x, c("AGCT", "AGNCT"), overhang=c(4, 3))
 }
 
 \seealso{
-\code{\link{matchPattern}}
+\code{\link[Biostrings]{matchPattern}}
 }
 
 \keyword{preprocessing}

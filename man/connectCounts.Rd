@@ -41,7 +41,7 @@ This expands the effective boundaries of each entry of \code{regions} to the nea
 In contrast, setting \code{type="within"} would contract each interval.
 
 For DNase Hi-C experiments, the interval spanned by the alignment of each read is overlapped against the intervals in \code{regions}.
-This uses the \code{\link{linkOverlaps}} function, which responds to any specification of \code{type}. 
+This uses the \code{\link[InteractionSet]{linkOverlaps}} function, which responds to any specification of \code{type}. 
 The boundaries of \code{regions} are not modified as no restriction fragments are involved.
 
 Counting will consider the values of \code{restrict}, \code{discard} and \code{cap} in \code{param} - see \code{\link{pairParam}} for more details.
@@ -95,7 +95,7 @@ By default, \code{restrict.regions=FALSE} to ensure that the anchor IDs of the o
 
 \seealso{
 \code{\link{squareCounts}},
-\code{\link{findOverlaps}},
+\code{\link[IRanges]{findOverlaps}},
 \code{\link[InteractionSet]{InteractionSet-class}},
 \code{\link[InteractionSet]{ReverseStrictGInteractions-class}}
 }

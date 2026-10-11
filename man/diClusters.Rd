@@ -17,7 +17,7 @@ diClusters(data.list, result.list, target, equiweight=TRUE, cluster.args=list(),
 \item{cluster.args}{a list of parameters to supply to \code{\link{clusterPairs}}.}
 \item{pval.col}{a character string or integer scalar specifying the column of p-values for elements in \code{result.list}.}
 \item{fc.col}{a character string or integer scalar specifying the column of log-fold changes for elements in \code{result.list}.}
-\item{grid.length, iterations}{Parameters to supply to \code{\link{controlClusterFDR}}.}
+\item{grid.length, iterations}{Parameters to supply to \code{\link[csaw]{controlClusterFDR}}.}
 }
 
 \value{
@@ -50,7 +50,7 @@ Aaron Lun
 
 \seealso{
 \code{\link{clusterPairs}},
-\code{\link{controlClusterFDR}}
+\code{\link[csaw]{controlClusterFDR}}
 }
 
 \examples{

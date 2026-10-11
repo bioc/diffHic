@@ -31,7 +31,7 @@ The rate of non-specific compaction is estimated by fitting a trend to the avera
 This rate can then be used as a minimum threshold for filtering.
 For inter-chromosomal bin pairs, the threshold is the same as that from the direct filter.
 
-Curve fitting in \code{filterTrended} is done using \code{\link{loessFit}} with a bandwidth of \code{span}.
+Curve fitting in \code{filterTrended} is done using \code{\link[limma]{loessFit}} with a bandwidth of \code{span}.
 Lower values may need to be used for a more accurate fit when the trend is highly non-linear.
 The bin size is also added to the distance prior to log-transformation, to avoid problems with undefined values when distances are equal to zero.
 Empty parts of the interaction space are considered by inferring the abundances and distances of the corresponding bin pairs (though this is skipped if too much of the space is empty).

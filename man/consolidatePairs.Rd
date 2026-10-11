@@ -12,7 +12,7 @@ consolidatePairs(indices, result.list, equiweight=TRUE, combine.args=list())
 \item{indices}{a list of index vectors, specifying the cluster ID to which each interaction belongs}
 \item{result.list}{a list of data frames containing the DI test results for each interaction}
 \item{equiweight}{a logical scalar indicating whether equal weighting from each bin size should be enforced}
-\item{combine.args}{a list of parameters to pass to \code{\link{combineTests}}}
+\item{combine.args}{a list of parameters to pass to \code{\link[csaw]{combineTests}}}
 }
 
 \value{
@@ -37,7 +37,7 @@ Aaron Lun
 }
 
 \seealso{
-\code{\link{combineTests}},
+\code{\link[csaw]{combineTests}},
 \code{\link{boxPairs}},
 \code{\link{clusterPairs}}
 }

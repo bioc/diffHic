@@ -13,7 +13,7 @@ annotatePairs(data.list, regions, rnames=names(regions), indices, ...)
 \item{regions}{A GRanges object containing coordinates for the regions of interest.}
 \item{rnames}{A character vector containing names to be used for annotation.}
 \item{indices}{An integer vector or list of such vectors, indicating the cluster identity for each interaction in \code{data.list}.}
-\item{...}{Additional arguments to pass to \code{\link{findOverlaps}}.}
+\item{...}{Additional arguments to pass to \code{\link[IRanges]{findOverlaps}}.}
 }
 
 \value{
@@ -43,7 +43,7 @@ Aaron Lun
 }
 
 \seealso{
-\code{\link{findOverlaps}},
+\code{\link[IRanges]{findOverlaps}},
 \code{\link{clusterPairs}}
 }
 
