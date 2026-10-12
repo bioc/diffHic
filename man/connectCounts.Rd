@@ -35,7 +35,7 @@ In each pair, the anchor interval is defined as that with the higher start posit
 Note that the end position may not be higher if nested intervals are present in \code{regions}.
 
 For typical Hi-C experiments, mapping of read pairs into intervals is performed at the level of restriction fragments.
-The value of \code{type} feeds into \code{\link{findOverlaps}} and controls the manner in which restriction fragments are assigned to each region. 
+The value of \code{type} feeds into \code{\link[IRanges]{findOverlaps}} and controls the manner in which restriction fragments are assigned to each region. 
 By default, a restriction fragment is assigned to one or more regions if said fragment overlaps with any part of those regions.
 This expands the effective boundaries of each entry of \code{regions} to the nearest restriction site.
 In contrast, setting \code{type="within"} would contract each interval.

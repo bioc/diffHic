@@ -16,7 +16,7 @@ cutGenome(bs, pattern, overhang=4L)
 }
 
 \value{
-A \linkS4class{GRanges} object containing the boundaries of each restriction fragment in the genome.
+A \linkS4class[GenomicRanges]{GRanges} object containing the boundaries of each restriction fragment in the genome.
 }
 
 \details{

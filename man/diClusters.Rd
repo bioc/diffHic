@@ -34,7 +34,7 @@ If \code{fc.col} is specified, all clusters consist of bin pairs that are changi
 
 The aim is to avoid very large clusters from blind clustering in areas of the interaction space that have high interaction intensity.
 This includes interactions within structural domains, or in data sets where interactions are difficult to define due to high levels of noise.
-Post-hoc control of the cluster-level FDR is performed using the \code{\link{controlClusterFDR}} function.
+Post-hoc control of the cluster-level FDR is performed using the \code{\link[csaw]{controlClusterFDR}} function.
 This is necessary as clustering is not blind to the test results.
 By default, the cluster-level FDR is controlled at 0.05 if \code{target} is not specified.
 

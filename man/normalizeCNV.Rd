@@ -20,7 +20,7 @@ matchMargins(data, margins)
 \item{maxk}{a integer scalar specifying the number of vertices to use during local fitting}
 \item{assay.data}{a string or integer scalar specifying the matrix to use from \code{data}}
 \item{assay.marg}{a string or integer scalar specifying the matrix to use from \code{margins}}
-\item{...}{other arguments to pass to \code{\link{locfit}}}
+\item{...}{other arguments to pass to \code{\link[locfit]{locfit}}}
 }
 
 \details{
@@ -31,7 +31,7 @@ To avoid redundancy, the first covariate is the larger marginal log-ratio wherea
 The third covariate is the average abundance across all libraries.
 
 Each bin pair is also associated with a response, i.e., the log-ratio of the interaction counts between two libraries.
-A loess-like surface is fitted to the response against the three covariates, using the \code{\link{locfit}} function.
+A loess-like surface is fitted to the response against the three covariates, using the \code{\link[locfit]{locfit}} function.
 The aim is to eliminate systematic differences between libraries at any combination of covariate values.
 This removes CNV-driven biases as well as trended biases with respect to the abundance.
 The fitted value can then be used as a GLM offset for each bin pair.
@@ -50,9 +50,9 @@ Note that the marginal counts are not directly computed from \code{data} as filt
 In practice, normalization offsets are computed for each library relative to a single reference ``average'' library.
 This average library is constructed by using the average abundance as the (log-)count for both the bin pair and marginal counts.
 The space of all pairs of CNV log-ratios is also rotated by 45 degrees prior to smoothing.
-This improves the performance of the approximations used by \code{\link{locfit}}.
+This improves the performance of the approximations used by \code{\link[locfit]{locfit}}.
 
-The fit parameters can be changed by varying \code{span}, \code{maxk} and additional arguments in \code{\link{locfit}}.
+The fit parameters can be changed by varying \code{span}, \code{maxk} and additional arguments in \code{\link[locfit]{locfit}}.
 Higher values of \code{span} will increase smoothness, at the cost of sensitivity.
 Increases in \code{maxk} may be required to obtain a more accurate approximation when fitting large datasets.
 In all cases, a loess fit of degree 1 is used.
@@ -69,8 +69,8 @@ Each field specifies the index in \code{margins} corresponding to the bin region
 }
 
 \seealso{
-\code{\link{locfit}}, 
-\code{\link{lp}},
+\code{\link[locfit]{locfit}}, 
+\code{\link[locfit]{lp}},
 \code{\link{squareCounts}},
 \code{\link{marginCounts}}
 }

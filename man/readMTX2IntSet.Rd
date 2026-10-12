@@ -2,7 +2,7 @@
 \alias{readMTX2IntSet}
 
 \title{Create an InteractionSet from a BED file and Matrix Market files}
-\description{Read a set of Matrix Market Exchange Format files from disk and create an \linkS4class{InteractionSet} object.}
+\description{Read a set of Matrix Market Exchange Format files from disk and create an \linkS4class[InteractionSet]{InteractionSet} object.}
 
 \usage{
 readMTX2IntSet(mtx, bed, as.integer=TRUE)
@@ -17,14 +17,14 @@ Otherwise values are stored as double-precision numbers.}
 }
 
 \value{
-An \linkS4class{InteractionSet} object containing interactions between regions from the BED file (in reverse-strict mode, see \code{\link{GInteractions}}).
+An \linkS4class[InteractionSet]{InteractionSet} object containing interactions between regions from the BED file (in reverse-strict mode, see \code{\link[InteractionSet]{GInteractions}}).
 Each row corresponds to a unique interaction found in any of the MTX files, and contains the read counts across all files.
 }
 
 \details{
 Each MTX file is assumed to contain read counts for symmetric matrix representing the two-dimensional interaction space.
 Each row and column is assumed to correspond to contiguous bins of the genome, with coordinates specified by \code{bed} in standard BED format.
-This function will aggregate counts from all files to create an \linkS4class{InteractionSet} object that mimics the output of \code{\link{squareCounts}}.
+This function will aggregate counts from all files to create an \linkS4class[InteractionSet]{InteractionSet} object that mimics the output of \code{\link{squareCounts}}.
 
 The \code{width} value in the \code{metadata} of the output InteractionSet is set to the median width of the regions.
 The \code{totals} field in the output \code{colData} is also set to be equal to the sum of the counts in each MTX file.

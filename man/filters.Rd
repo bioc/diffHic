@@ -54,7 +54,7 @@ This contains the filtering information for the bin pairs in \code{reference}, s
 
 \seealso{
 \code{\link{squareCounts}},
-\code{\link{scaledAverage}}
+\code{\link[csaw]{scaledAverage}}
 }
 
 \author{

@@ -26,7 +26,7 @@ This usually produces a \code{indices} vector that can be used as an input here.
 Briefly, each vector in \code{indices} should correspond to one analysis, and each entry of that vector should correspond to an analyzed interaction.
 The vector itself holds cluster IDs, such that interactions within/between analyses with the same ID belong in the same cluster.
 
-For all bin pairs in a cluster, the associated p-values are combined in \code{\link{combineTests}} using a weighted version of Simes' method.
+For all bin pairs in a cluster, the associated p-values are combined in \code{\link[csaw]{combineTests}} using a weighted version of Simes' method.
 This yields a single combined p-value, representing the evidence against the global null.
 When \code{equiweight=TRUE}, the weight of a p-value of each bin pair is inversely proportional to the number of bin pairs of the same size in that parent bin pair.
 This ensures that the results are not dominated by numerous smaller bin pairs.
